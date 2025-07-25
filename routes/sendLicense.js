@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require("express")
 const router = express.Router()
 const nodemailer = require("nodemailer")
@@ -5,6 +6,16 @@ const { spawn } = require("child_process")
 const fs = require("fs")
 const path = require("path")
 require("dotenv").config()
+=======
+// backend/routes/sendLicense.js
+
+const express = require("express");
+const router = express.Router();
+const nodemailer = require("nodemailer");
+const License = require("../models/License"); // ✅ Import Mongoose model
+require("dotenv").config();
+require("../config/db"); // ✅ Ensure DB is connected
+>>>>>>> 3c5c441519c0f9dd78e5b0a16f69bb52632960c5
 
 // Path to your C++ scanner executable
 const scannerExe = process.platform === "win32" ? "scanner.exe" : "scanner"
@@ -112,6 +123,7 @@ router.post("/", async (req, res) => {
   console.log(`📧 /send-license route called`)
   console.log(`📧 Request body:`, req.body)
 
+<<<<<<< HEAD
   const { email, userId, name, phoneNumber } = req.body
 
   // Validate required fields
@@ -121,11 +133,16 @@ router.post("/", async (req, res) => {
       status: "ERROR",
       message: "Email, userId, name, and phoneNumber are required.",
     })
+=======
+  if (!email || !licenseKey) {
+    return res.status(400).json({ error: "Email and License Key are required." });
+>>>>>>> 3c5c441519c0f9dd78e5b0a16f69bb52632960c5
   }
 
   console.log(`📧 Processing license request for: Email=${email}, UserId=${userId}, Name=${name}, Phone=${phoneNumber}`)
 
   try {
+<<<<<<< HEAD
     // STEP 1: Validate User ID
     console.log(`🔍 Step 1: Validating User ID: ${userId}`)
     const isUserIdValid = await validateUserIdWithCppBackend(userId)
@@ -156,8 +173,17 @@ router.post("/", async (req, res) => {
     }
 
     console.log(`📧 Step 3: Sending email to ${email}`)
+=======
+    // ✅ Save to MongoDB
+    await License.create({ email, licenseKey });
+    console.log(`✅ Saved license for ${email} to MongoDB.`);
+
+    // 📧 Configure transporter
+>>>>>>> 3c5c441519c0f9dd78e5b0a16f69bb52632960c5
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -165,6 +191,7 @@ router.post("/", async (req, res) => {
     })
 
     const htmlContent = `
+<<<<<<< HEAD
       <div style="font-family:sans-serif;font-size:16px;">
         <h2 style="color:#0057b7;">Welcome to V-Nashak Antivirus</h2>
         <p>Hello ${name},</p>
@@ -221,6 +248,34 @@ router.post("/", async (req, res) => {
       status: "ERROR",
       message: `Internal server error: ${error.message}`,
     })
+=======
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2 style="color: #2563eb;">🛡️ Virex Security - License Key</h2>
+        <p>Hello,</p>
+        <p>Thank you for choosing <strong>Virex Security</strong>!</p>
+        <div style="background-color: #f0f4f8; padding: 16px; border-radius: 8px; margin: 20px 0;">
+          <p style="font-size: 18px;">Here is your license key:</p>
+          <p style="font-size: 24px; font-weight: bold; color: #111827;">${licenseKey}</p>
+        </div>
+        <p>This key is tied to your email and machine and cannot be reused elsewhere.</p>
+        <p>Regards,<br/>The Virex Team</p>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: `"Virex Security" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "🛡️ Your Virex Security License Key",
+      html: htmlContent,
+    });
+
+    console.log(`✅ License key email sent to ${email}`);
+    res.status(200).json({ status: "SUCCESS", message: "License key sent and saved." });
+
+  } catch (error) {
+    console.error("❌ Error in /send-license:", error);
+    res.status(500).json({ status: "ERROR", message: "Failed to send or save license." });
+>>>>>>> 3c5c441519c0f9dd78e5b0a16f69bb52632960c5
   }
 })
 
