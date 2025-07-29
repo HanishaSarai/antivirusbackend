@@ -393,5 +393,69 @@
       "machineId": "DESKTOP-HL67BTN-LENOVO",
       "activatedAt": "2025-07-25T06:27:04.091Z"
     }
+  ],
+  [
+    "X9Z8-CH2X-WZSN",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0001",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "HPHH-7VPZ-50W9",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0003",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "HIT3-DTFZ-E7XD",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0004",
+      "name": "hanihsa",
+      "phoneNumber": "9313266561",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "IVSM-RIHT-5MOY",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0005",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "KINJ-VXZ8-ZMIU",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0007",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-29T09:46:41.153Z"
+    }
+  ],
+  [
+    "88NP-85NK-LOZV",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_0009",
+      "name": "HANISHA",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-29T11:30:25.028Z"
+    }
   ]
 ]

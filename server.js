@@ -58,6 +58,10 @@ const DB_FILE = path.join(__dirname, "licenses.json")
 let usedUserIds = new Set(); // In-memory set for fast lookups
 const USED_IDS_FILE = path.join(__dirname, "used-user-ids.json"); // File for persistent storage
 
+// Global variable to store valid user IDs loaded from file
+let validUserIds = new Set();
+const VALID_IDS_FILE = path.join(__dirname, "user_ids.json");
+
 // Path to your C++ scanner executable
 const scannerExe = process.platform === "win32" ? "scanner.exe" : "scanner"
 const scannerPath = path.join(__dirname, scannerExe)
@@ -104,18 +108,36 @@ function generateUniqueLicenseKey() {
   return key
 }
 
+// Function to load user IDs from the external JSON file
+function loadValidUserIds() {
+  try {
+    if (fs.existsSync(VALID_IDS_FILE)) {
+      const data = fs.readFileSync(VALID_IDS_FILE, "utf8");
+      const idsArray = JSON.parse(data);
+      validUserIds = new Set(idsArray);
+      console.log(`✅ Loaded ${validUserIds.size} valid User IDs from ${VALID_IDS_FILE}`);
+    } else {
+      console.error(`❌ CRITICAL: User ID file not found at ${VALID_IDS_FILE}`);
+      // Create an empty file to prevent crashes
+      fs.writeFileSync(VALID_IDS_FILE, "[]", "utf8");
+    }
+  } catch (error) {
+    console.error(`❌ Error loading or parsing user IDs from ${VALID_IDS_FILE}:`, error);
+  }
+}
+
 /**
  * SIMPLIFIED: Validates User ID directly (fallback if C++ scanner not available)
  */
 function validateUserIdDirect(userId) {
-  const validUserIds = ["user_01", "user_08", "user_09", "user_15", "user_18", "user_20", "user_22"]
-  return validUserIds.includes(userId)
+  // This now correctly uses the logic that reads from your user_ids.json file.
+  const validation = validateUserIdDirectAndUnused(userId);
+  return validation.valid;
 }
 
 // Checks if a User ID is in the list of valid IDs
 function isUserIdValid(userId) {
-  const validUserIds = ["user_01", "user_08", "user_09", "user_15", "user_18", "user_20", "user_22"];
-  return validUserIds.includes(userId);
+  return validUserIds.has(userId);
 }
 
 // Checks if a User ID has already been used
@@ -271,6 +293,8 @@ app.post("/send-license", async (req, res) => {
   console.log(`📧 /send-license endpoint called`);
   const { email, userId, name, phoneNumber } = req.body;
 
+  // ADD THIS LINE FOR DEBUGGING
+  console.log("🔍 Received body for /send-license:", req.body);
   if (!email || !userId || !name || !phoneNumber) {
     return res.status(400).json({ status: "ERROR", message: "All fields are required." });
   }
@@ -408,15 +432,23 @@ app.use((req, res) => {
 loadLicenses()
 
 app.listen(PORT, () => {
-   // Load the used user IDs from the file when the server starts
-  if (fs.existsSync(USED_IDS_FILE)) {
-    const data = fs.readFileSync(USED_IDS_FILE, "utf8");
-    usedUserIds = new Set(JSON.parse(data));
-    console.log(`✅ Loaded ${usedUserIds.size} used User IDs.`);
-  }
 
+   loadValidUserIds();
+   // Load the used user IDs from the file when the server starts
+  // Load the used user IDs from the file when the server starts
+    if (fs.existsSync(USED_IDS_FILE)) {
+        try {
+            const data = fs.readFileSync(USED_IDS_FILE, "utf8");
+            usedUserIds = new Set(JSON.parse(data));
+            console.log(`✅ Loaded ${usedUserIds.size} used User IDs.`);
+        } catch (e) {
+            console.error("❌ Failed to parse used-user-ids.json, starting fresh.", e);
+            usedUserIds = new Set();
+        }
+    }
   // console.log(`✅ V-Nashak License Server running on http://localhost:${PORT}`);
-  console.log(`✅ V-Nashak License Server running on http://localhost:${PORT}`)
+  // console.log(`✅ V-Nashak License Server running on http://localhost:${PORT}`)
+   console.log(`✅ V-Nashak License Server running on http://localhost:${PORT}`);
   console.log(`🔍 Scanner path: ${scannerPath}`)
   console.log(`🔍 Scanner exists: ${fs.existsSync(scannerPath)}`)
   console.log(`📧 Email configured: ${!!process.env.EMAIL_USER}`)
