@@ -7,6 +7,7 @@ const fs = require("fs")
 const path = require("path")
 const nodemailer = require("nodemailer")
 const { spawn } = require("child_process")
+const License = require("./models/License"); 
 require("dotenv").config()
 
 const app = express()
@@ -306,10 +307,22 @@ app.post("/send-license", async (req, res) => {
     return res.status(400).json({ status: "ERROR", message: validation.message });
   }
 
+
+ 
+
   console.log(`✅ User ID '${userId}' is valid and unused.`);
   
   // Steps 2, 3, and 4 proceed only if validation passes
   const newLicenseKey = generateUniqueLicenseKey();
+  const licenseData = { email, userId, name, phoneNumber, licenseKey: newLicenseKey, status: "ASSIGNED" };
+  try {
+    const newLicense = new License(licenseData);
+    await newLicense.save();
+    console.log(`✅ Saved license ${newLicenseKey} to MongoDB.`);
+  } catch (dbError) {
+    console.error("❌ Error saving license to MongoDB:", dbError);
+    return res.status(500).json({ status: "ERROR", message: "Failed to save license to the database." });
+  }
   licenseDatabase.set(newLicenseKey, { email, userId, name, phoneNumber, status: "ASSIGNED" });
   saveLicenses();
 
@@ -353,6 +366,30 @@ app.post("/activate-license", async (req, res) => {
   console.log(`🔐 Request body:`, req.body)
 
   const { email, licenseKey, machineId } = req.body
+
+  const activationData = {
+    machineId,
+    status: "ACTIVATED",
+    activatedAt: new Date().toISOString(),
+  };
+
+  // 1. Update in MongoDB
+  try {
+    const updatedLicense = await License.findOneAndUpdate(
+      { licenseKey, email }, 
+      { $set: { status: "ACTIVATED", machineId: machineId, activatedAt: activationData.activatedAt } },
+      { new: true } 
+    );
+
+    if (!updatedLicense) {
+      console.log(`❌ License not found in MongoDB for key: ${licenseKey}`);
+      return res.json({ status: "ERROR", message: "License key not found in database." });
+    }
+    console.log(`✅ Activated license ${licenseKey} in MongoDB.`);
+  } catch (dbError) {
+    console.error("❌ Error activating license in MongoDB:", dbError);
+    return res.status(500).json({ status: "ERROR", message: "Database error during activation." });
+  }
 
   if (!email || !licenseKey || !machineId) {
     return res.status(400).json({

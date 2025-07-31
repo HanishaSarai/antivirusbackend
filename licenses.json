@@ -457,5 +457,29 @@
       "machineId": "DESKTOP-HL67BTN-LENOVO",
       "activatedAt": "2025-07-29T11:30:25.028Z"
     }
+  ],
+  [
+    "IW5O-4FPS-3Z5Q",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_49",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T06:29:55.636Z"
+    }
+  ],
+  [
+    "TH8F-ZDMH-YHMO",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_52",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T06:34:22.306Z"
+    }
   ]
 ]
