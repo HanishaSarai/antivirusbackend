@@ -1,70 +1,97 @@
-const express = require("express")
-const router = express.Router()
-const License = require("../models/license")
+// // routes/activateLicense.js
 
-// License activation endpoint
+// const express = require("express");
+// const router = express.Router();
+// const License = require("../models/License");
+
+// router.post("/", async (req, res) => {
+//   console.log(`🔐 /activate-license route called`);
+//   const { email, licenseKey, machineId } = req.body;
+
+//   // userId: { type: String, required: true },
+//   // name: { type: String, required: true },
+//   // phoneNumber: { type: String, required: true },
+//   // status: { 
+//   //   type: String, 
+//   //   enum: ['ASSIGNED', 'ACTIVATED'], 
+//   //   default: 'ASSIGNED' 
+//   // },
+//   // activatedAt
+
+//   if (!email || !licenseKey || !machineId || !name || !userId || !phoneNumber || !status || !activatedAt ) {
+//     return res.status(400).json({ status: "ERROR", message: "Email, licenseKey, and machineId name phoen and userid are required." });
+//   }
+
+//   try {
+//     // Find the license that was assigned to this email with this key
+//     const license = await License.findOne({ licenseKey: licenseKey, email: email });
+
+//     if (!license) {
+//       return res.status(404).json({ status: "ERROR", message: "License key not found or email does not match." });
+//     }
+
+//     if (license.status === 'ACTIVATED' && license.machineId !== machineId) {
+//         return res.status(403).json({ status: "ERROR", message: "This license key is already activated on a different machine."});
+//     }
+
+//     // Update the existing license document
+//     license.status = "ACTIVATED";
+//     license.machineId = machineId;
+//     license.activatedAt = new Date();
+//     await license.save();
+    
+//     console.log(`✅ Activated license ${licenseKey} in MongoDB.`);
+//     res.json({ status: "VALID", message: "License activated successfully." });
+
+//   } catch (dbError) {
+//     console.error("❌ Error activating license in MongoDB:", dbError);
+//     return res.status(500).json({ status: "ERROR", message: "Database error during activation." });
+//   }
+// });
+
+// module.exports = router;
+
+// routes/activateLicense.js
+
+// routes/activateLicense.js
+
+const express = require("express");
+const router = express.Router();
+const License = require("../models/License");
+
 router.post("/", async (req, res) => {
-  console.log(`🔐 /activate-license route called`)
-  console.log(`🔐 Request body:`, req.body)
+  console.log(`🔐 /activate-license route called`);
+  const { email, licenseKey, machineId } = req.body;
 
-  const { email, licenseKey, userId, machineId } = req.body
-
-  if (!email || !licenseKey) {
-    console.log(`❌ Missing required fields: email or licenseKey`)
-    return res.status(400).json({
-      status: "ERROR",
-      message: "Email and licenseKey are required.",
-    })
+  if (!email || !licenseKey || !machineId) {
+    return res.status(400).json({ status: "ERROR", message: "Email, licenseKey, and machineId are required." });
   }
-
-  // Generate machine ID if not provided (for web-based activation)
-  const finalMachineId = machineId || `WEB-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
-
-  console.log(`🔐 Processing activation: Email=${email}, Key=${licenseKey}, MachineId=${finalMachineId}`)
 
   try {
-    // Check if license already exists
-    const existingLicense = await License.findOne({
-      $or: [{ email: email, licenseKey: licenseKey }, { licenseKey: licenseKey }],
-    })
+    // Find the license that was assigned to this email with this key
+    const license = await License.findOne({ licenseKey: licenseKey, email: email });
 
-    if (existingLicense) {
-      if (existingLicense.machineId === finalMachineId) {
-        console.log(`✅ License already activated for this machine`)
-        return res.json({
-          status: "SUCCESS",
-          message: "License is already active on this device.",
-        })
-      } else {
-        console.log(`❌ License already activated on different machine`)
-        return res.json({
-          status: "ERROR",
-          message: "This license key is already activated on a different machine.",
-        })
-      }
+    if (!license) {
+      return res.status(404).json({ status: "ERROR", message: "License key not found or email does not match." });
     }
 
-    // Create new license activation
-    const newLicense = new License({
-      email: email,
-      licenseKey: licenseKey,
-      machineId: finalMachineId,
-    })
+    if (license.status === 'ACTIVATED' && license.machineId !== machineId) {
+        return res.status(403).json({ status: "ERROR", message: "This license key is already activated on a different machine."});
+    }
 
-    await newLicense.save()
-    console.log(`✅ License activated successfully: ${licenseKey}`)
+    // Update the existing license document
+    license.status = "ACTIVATED";
+    license.machineId = machineId;
+    license.activatedAt = new Date();
+    await license.save();
+    
+    console.log(`✅ Activated license ${licenseKey} in MongoDB.`);
+    res.json({ status: "VALID", message: "License activated successfully." });
 
-    return res.json({
-      status: "SUCCESS",
-      message: "License activated successfully.",
-    })
-  } catch (error) {
-    console.error("❌ Error in activate-license route:", error)
-    return res.status(500).json({
-      status: "ERROR",
-      message: `Database error: ${error.message}`,
-    })
+  } catch (dbError) {
+    console.error("❌ Error activating license in MongoDB:", dbError);
+    return res.status(500).json({ status: "ERROR", message: "Database error during activation." });
   }
-})
+});
 
-module.exports = router
+module.exports = router;

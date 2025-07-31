@@ -481,5 +481,143 @@
       "machineId": "DESKTOP-HL67BTN-LENOVO",
       "activatedAt": "2025-07-31T06:34:22.306Z"
     }
+  ],
+  [
+    "NRI0-38BW-FSTP",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "user_55",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T09:42:19.134Z"
+    }
+  ],
+  [
+    "V9QU-QIKG-7VAP",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-ymlvr-3756",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T10:10:39.703Z"
+    }
+  ],
+  [
+    "7XFO-MKNG-58CU",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-hbcjb-7390",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T10:25:47.628Z"
+    }
+  ],
+  [
+    "QYOA-6J5F-SV7E",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-wxxrm-9001",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T10:30:01.044Z"
+    }
+  ],
+  [
+    "XXR3-4O25-S9E4",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-lftsf-5679",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T10:36:55.602Z"
+    }
+  ],
+  [
+    "3I1R-FESG-QWF6",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-ilzsc-7823",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T11:12:50.963Z"
+    }
+  ],
+  [
+    "BPTC-4DPE-9CB0",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-nqnjw-4726",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T11:20:46.759Z"
+    }
+  ],
+  [
+    "8IBH-69A7-UQIX",
+    {
+      "email": "test-email@example.com",
+      "userId": "vxusr-mwttp-3253",
+      "name": "Test User",
+      "phoneNumber": "1234567890",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "FSI9-23LB-PHG2",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-ihknz-2707",
+      "name": "Test User",
+      "phoneNumber": "1234567890",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "0LDI-0GTW-3KWD",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-aurkv-4403",
+      "name": "Test User",
+      "phoneNumber": "1234567890",
+      "status": "ASSIGNED"
+    }
+  ],
+  [
+    "LUH7-LCRD-VM1N",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-gecfd-5395",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T11:48:39.279Z"
+    }
+  ],
+  [
+    "Q5DN-WMW9-FW0E",
+    {
+      "email": "hanishasarai1000@gmail.com",
+      "userId": "vxusr-bsjuf-4014",
+      "name": "hanisha",
+      "phoneNumber": "9313266561",
+      "status": "ACTIVATED",
+      "machineId": "DESKTOP-HL67BTN-LENOVO",
+      "activatedAt": "2025-07-31T12:22:07.120Z"
+    }
   ]
 ]
